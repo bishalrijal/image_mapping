@@ -1,0 +1,55 @@
+Live Demo
+<html>   
+   <head>
+      <title>Using JavaScript Image Map</title>
+      <link rel="stylesheet" href="./style.css">
+      
+    </head>
+   
+   <body>
+      <form name = "myform">
+         <input  id = "cordinate" type = "text" name = "stage" size = "20" />
+      </form>
+      
+      <!-- Create  Mappings -->
+      <div class="img-overlay-wrap">
+      <img id ="map-image" src = "./provience-no-5-pradesh-1.jpg" alt = "HTML Map" border = "1" usemap = "#tutorials" />
+      <svg id = "svg" viewBox = "8 64 756 452">
+            
+      </svg>  
+
+      </div>
+      
+      
+
+   </body>
+   <script type = "text/javascript">
+   var image_x,image_y,image_len,image_wid
+         
+    // function showTutorial(name) {
+    //    document.myform.stage.value = name
+    // }
+    image = document.getElementById('map-image');
+    input = document.getElementById('cordinate')
+    image_x =image.getBoundingClientRect().x
+    image_y = image.getBoundingClientRect().y
+    console.log(image_y)
+    image_wid = image.getBoundingClientRect().width
+    image_height = image.getBoundingClientRect().height
+    viewBox = `${parseInt(image_x)} ${ parseInt(image_y)} ${parseInt(image_height)} ${parseInt(image_wid)}`
+   svgDom = document.getElementById('svg')
+   
+   svgDom.addEventListener('click', e=> {
+        var x_cor = e.clientX-image.getBoundingClientRect().x;
+        var y_cor = e.clientY- image.getBoundingClientRect().y
+      //   svgDom.attributes.viewBox = viewBox
+        attr = document.createAttribute("viewBox");
+         attr.value = viewBox;
+         svgDom.setAttributeNode(attr)
+        svgDom.insertAdjacentHTML('beforeend',`
+  <circle cx="${x_cor+8}" cy="${y_cor+64}" r="2" stroke="black" stroke-width="3 display:block"  />
+ `)
+        input.value = `x:${x_cor.toFixed(2)}, y: ${y_cor.toFixed(2)}`
+    })
+</script>
+</html>
