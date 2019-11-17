@@ -1,26 +1,32 @@
 Live Demo
-<html>   
-   <head>
-      <title>Using JavaScript Image Map</title>
-      <link rel="stylesheet" href="./style.css">
-      
-    </head>
-   
-   <body>
-      <form name = "myform">
-         <input  id = "cordinate" type = "text" name = "stage" size = "20" />
-      </form>
-      
-      <!-- Create  Mappings -->
-      <div class="img-overlay-wrap">
-      <img id ="map-image" src = "./provience-no-5-pradesh-1.jpg" alt = "HTML Map" border = "1" usemap = "#tutorials" />
-      <svg id = "svg" viewBox = "8 64 756 452">
-            
-      </svg>  
+<html>
 
-      </div>   
+<head>
+   <title>Using JavaScript Image Map</title>
+   <link rel="stylesheet" href="./style.css">
 
-   </body>
-   <script src="./img-mapping.js">
-   </script>
+</head>
+
+<body>
+   <form name="myform">
+      <input id="cordinate" type="text" name="stage" size="20" />
+   </form>
+
+   <!-- Create  Mappings -->
+   <div class="img-overlay-wrap">
+      <img id="map-image" src="./provience-no-5-pradesh-1.jpg" alt="HTML Map" border="1" usemap="#workmap" />
+      <svg id="svg" viewBox="8 64 756 452">
+
+
+      </svg>
+
+   </div>
+<br>
+<br>
+   <button id="show-map-button" >Show map</button>
+
+</body>
+<script src="./img-mapping.js">
+</script>
+
 </html>
