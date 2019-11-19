@@ -1,27 +1,17 @@
 var image_x, image_y, image_len, image_wid
-
-// function showTutorial(name) {
-//    document.myform.stage.value = name
-// }
 image = document.getElementById('map-image');
 input = document.getElementById('cordinate')
 show_map_button = document.getElementById('show-map-button')
 svgDom = document.getElementById('svg')
-
-// const fs = require('fs')
-image_x = image.getBoundingClientRect().x
-image_y = image.getBoundingClientRect().y
-console.log(image_y)
-image_wid = image.getBoundingClientRect().width
-image_height = image.getBoundingClientRect().height
-viewBox = `${parseInt(image_x)} ${parseInt(image_y)} ${parseInt(image_height)} ${parseInt(image_wid)}`
+add_new_button = document.getElementById('add-new-button')
+map_id = document.getElementById('mapping')
 class Circle {
     constructor(count = 0, x_cor = 0, y_cor = 0, element = '') {
         this.count = count
         this.x_cor = x_cor
         this.y_cor = y_cor,
             this.element = `
-               <circle cx="${ this.x_cor + 8}" cy="${this.y_cor + 64}" r="2" stroke="black" stroke-width="3 display:block"  />
+               <circle cx="${ this.x_cor }" cy="${this.y_cor }" r="2" stroke="black" stroke-width="3 display:block"  />
                   ` }
 }
 class Rectangle {
@@ -33,13 +23,21 @@ class Rectangle {
         this.element = element;
     }
 }
+class RectangleMap {
+    constructor (x1,y1,x2,y2){
+        this.x1 = x1;
+        this.y1 = y1;
+        this.x2 = x2;
+        this.y2 = y2;
+    }
+}
 function makeRec(circles) {
     x = Math.min(circles[0].x_cor,circles[1].x_cor)
     y = Math.min(circles[0].y_cor,circles[1].y_cor)
     width =Math.abs(circles[0].x_cor-circles[1].x_cor)
     height =  Math.abs(circles[0].y_cor-circles[1].y_cor)
     element =  `
-    <rect x="${x+8}" y="${y+64}" width="${width}" height="${height}"
+    <rect x="${x}" y="${y}" width="${width}" height="${height}"
     style="fill:blue;stroke:black;stroke-width:2;fill-opacity:0.1;stroke-opacity:0.9" />
     `
     return new Rectangle(x,y,width,height,element)
@@ -47,6 +45,7 @@ function makeRec(circles) {
 
 var click = 0
 var circles = []
+var rectangles = []
 svgDom.addEventListener('click', e => {
     if (click < 2) {
         var x_cor = e.clientX - image.getBoundingClientRect().x;
@@ -60,23 +59,40 @@ svgDom.addEventListener('click', e => {
     }
     if(click === 2) {
         rec = makeRec(circles)
+        let x1,x2,y1,y2;
+        console.log(rec.x)
+        x1= rec.x
+        y1 =  rec.y
+        x2 = (x1+rec.width)
+        y2 =  y1+rec.height
+        rect_map = new RectangleMap(x1,y1,x2,y2)
+        rectangles.push(rect_map)
         svgDom.insertAdjacentHTML('beforeend', rec.element)
         click += 1   }
     
 });
 
-show_map_button.addEventListener('click', (e,rec = makeRec(circles)) => {
-    let x1,x2,y1,y2;
-    console.log(rec.x)
-    x1= rec.x
-    y1 =  rec.y
-    x2 = (x1+rec.width)
-    y2 =  y1+rec.height
-    console.log(x1)
-    svgDom.parentNode.removeChild(svgDom)
-    image.insertAdjacentHTML('afterend',
-    `<map name="workmap">
-    <area shape="rect" coords="${parseInt(x1)},${parseInt(y1)},${parseInt(x2)}, ${parseInt(y2)}" alt="Computer" href="https://www.image-map.net/">
-  </map>
-  `)
+show_map_button.addEventListener('click', (e,rects = rectangles) => {
+    if(click === 3){
+        svgDom.parentNode.removeChild(svgDom)
+        map_inner_html = ''
+        rects.forEach(element => {   
+        map_inner_html+=
+       ` <area shape="rect" coords="${parseInt(element.x1)},${parseInt(element.y1)},${parseInt(element.x2)}, ${parseInt(element.y2)}" alt="Computer" href="https://www.image-map.net/">
+      `    
+        });
+        image.insertAdjacentHTML('afterend',
+        `<map id = "mapping" name="workmap">
+        ${map_inner_html}
+      </map>
+      `)  
+
+        
+        
+    }
 })
+add_new_button.addEventListener('click',()=>{
+    click = 0
+    circles = []
+}
+)

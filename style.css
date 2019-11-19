@@ -8,16 +8,14 @@
    display: block;
    max-width: 100%;
    height: auto;
+   border: thick;
 }
 
 .img-overlay-wrap svg {
   position: absolute;
   top: 0;
   left: 0;
-}
-.map-image {
-  display: block;
-  margin: 0 auto;
-  align-self: center;;
+  height: 100%;
+  width: 100%;
 }
 
